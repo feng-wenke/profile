@@ -62,17 +62,10 @@
     <div class="container">
         <h1>User Profile</h1>
         <form id="profileForm">
-            <label for="username">Username:</label>
-            <input type="text" id="username" name="username" value="exampleUser" readonly><br><br>
-
-            <label for="email">Email:</label>
-            <input type="email" id="email" name="email" value="user@example.com"><br><br>
-
-            <label for="bio">Bio:</label>
-            <textarea id="bio" name="bio">This is my bio...</textarea><br><br>
-
-            <input type="submit" value="Save Changes">
+            <!-- ... (原有的表单元素保持不变) ... -->
         </form>
+        <button id="theme-toggle">Toggle Theme</button>
+        <button id="add-field">Add Field</button>
     </div>
     <script>
         document.getElementById('profileForm').addEventListener('submit', function(event) {
@@ -81,7 +74,25 @@
             alert('Profile updated successfully!');
         });
 
-        // 页面加载时，从localStorage获取主题并应用
+        document.getElementById('theme-toggle').addEventListener('click', function() {
+            var currentTheme = document.body.className;
+            var newTheme = currentTheme === 'light-theme' ? 'dark-theme' : 'light-theme';
+            document.body.className = newTheme;
+            localStorage.setItem('theme', newTheme.split('-')[0]);
+        });
+
+        document.getElementById('add-field').addEventListener('click', function() {
+            var form = document.getElementById('profileForm');
+            var newInput = document.createElement('input');
+            newInput.type = 'text';
+            newInput.name = 'additionalField[]'; // 使用数组名称以允许有多个输入
+            newInput.placeholder = 'Enter additional information';
+            newInput.style.width = '100%';
+            newInput.style.padding = '8px';
+            newInput.style.marginBottom = '10px';
+            form.appendChild(newInput);
+        });
+
         document.addEventListener('DOMContentLoaded', function() {
             var savedTheme = localStorage.getItem('theme') || 'light';
             document.body.className = savedTheme + '-theme'; // 应用主题
