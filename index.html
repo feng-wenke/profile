@@ -9,17 +9,27 @@
         body {
             font-family: Arial, sans-serif;
             transition: background-color 0.3s, color 0.3s;
-            /* Smooth transition for theme changes */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
         }
         
         .container {
             max-width: 400px;
-            margin: auto;
+            width: 100%;
             padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+        
+        form {
+            display: flex;
+            flex-direction: column;
         }
         
         label {
-            display: block;
             margin-bottom: 5px;
         }
         
@@ -29,25 +39,62 @@
             width: 100%;
             padding: 8px;
             margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
         }
         
-        input[type="submit"] {
+        textarea {
+            height: 100px;
+        }
+        
+        .button-container {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+        
+        .action-button {
             padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        
+        input[type="submit"],
+        #add-field {
             background-color: #007bff;
             color: white;
-            border: none;
-            cursor: pointer;
         }
         
-        input[type="submit"]:hover {
+        input[type="submit"]:hover,
+        #add-field:hover {
             background-color: #0056b3;
         }
+        
+        .delete-btn {
+            background-color: #f44336;
+            color: white;
+            width: 80px; /* Fixed width for delete button */
+        }
+        
+        .delete-btn:hover {
+            background-color: #d32f2f;
+        }
+        
+        .field-container {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        
         /* Light theme styles */
         
         .light-theme {
             background-color: #ffffff;
             color: #000000;
         }
+        
         /* Dark theme styles */
         
         .dark-theme {
@@ -58,19 +105,33 @@
 </head>
 
 <body class="light-theme">
-    <!-- Default theme is light -->
     <div class="container">
         <h1>User Profile</h1>
         <form id="profileForm">
-            <!-- ... (原有的表单元素保持不变) ... -->
+            <label for="username">Username:</label>
+            <input type="text" id="username" name="username" value="冯文科" readonly><br><br>
+
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" value="user@example.com"><br><br>
+            <label for="bio">Bio:</label>
+            <textarea id="bio" name="bio">This is my bio...</textarea><br><br>
+            <div class="button-container">
+                <input type="submit" class="action-button" value="Save Changes">
+                <button id="add-field" class="action-button">Add Field</button>
+            </div>
         </form>
         <button id="theme-toggle">Toggle Theme</button>
-        <button id="add-field">Add Field</button>
     </div>
     <script>
         document.getElementById('profileForm').addEventListener('submit', function(event) {
             event.preventDefault();
-            // Here you would typically handle the form submission with AJAX or fetch API
+            // 保存所有输入框的内容到localStorage
+            var inputs = document.querySelectorAll('input[type="text"]');
+            var additionalFields = [];
+            inputs.forEach(function(input) {
+                additionalFields.push(input.value);
+            });
+            localStorage.setItem('additionalFields', JSON.stringify(additionalFields));
             alert('Profile updated successfully!');
         });
 
@@ -83,19 +144,72 @@
 
         document.getElementById('add-field').addEventListener('click', function() {
             var form = document.getElementById('profileForm');
+            var fieldContainer = document.createElement('div');
+            fieldContainer.className = 'field-container';
+
             var newInput = document.createElement('input');
             newInput.type = 'text';
-            newInput.name = 'additionalField[]'; // 使用数组名称以允许有多个输入
+            newInput.name = 'additionalField[]';
             newInput.placeholder = 'Enter additional information';
-            newInput.style.width = '100%';
+            newInput.style.width = 'calc(100% - 50px)'; // Adjust width to make space for the delete button
             newInput.style.padding = '8px';
             newInput.style.marginBottom = '10px';
-            form.appendChild(newInput);
+
+            var deleteBtn = document.createElement('button');
+            deleteBtn.className = 'delete-btn';
+            deleteBtn.textContent = 'Delete';
+            deleteBtn.onclick = function() {
+                fieldContainer.remove();
+                saveFieldsToLocalStorage();
+            };
+
+            fieldContainer.appendChild(newInput);
+            fieldContainer.appendChild(deleteBtn);
+            form.appendChild(fieldContainer);
         });
 
+        function saveFieldsToLocalStorage() {
+            var inputs = document.querySelectorAll('input[type="text"]');
+            var additionalFields = [];
+            inputs.forEach(function(input) {
+                additionalFields.push(input.value);
+            });
+            localStorage.setItem('additionalFields', JSON.stringify(additionalFields));
+        }
+
         document.addEventListener('DOMContentLoaded', function() {
+            // 恢复主题
             var savedTheme = localStorage.getItem('theme') || 'light';
-            document.body.className = savedTheme + '-theme'; // 应用主题
+            document.body.className = savedTheme + '-theme';
+
+            // 恢复保存的输入框内容
+            var savedFields = JSON.parse(localStorage.getItem('additionalFields')) || [];
+            savedFields.forEach(function(fieldValue) {
+                var form = document.getElementById('profileForm');
+                var fieldContainer = document.createElement('div');
+                fieldContainer.className = 'field-container';
+
+                var newInput = document.createElement('input');
+                newInput.type = 'text';
+                newInput.name = 'additionalField[]';
+                newInput.placeholder = 'Enter additional information';
+                newInput.style.width = 'calc(100% - 50px)';
+                newInput.style.padding = '8px';
+                newInput.style.marginBottom = '10px';
+                newInput.value = fieldValue;
+
+                var deleteBtn = document.createElement('button');
+                deleteBtn.className = 'delete-btn';
+                deleteBtn.textContent = 'Delete';
+                deleteBtn.onclick = function() {
+                    fieldContainer.remove();
+                    saveFieldsToLocalStorage();
+                };
+
+                fieldContainer.appendChild(newInput);
+                fieldContainer.appendChild(deleteBtn);
+                form.appendChild(fieldContainer);
+            });
         });
     </script>
 </body>
