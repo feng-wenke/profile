@@ -1,94 +1,89 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Profile</title>
     <style>
-    body {
-        font-family: Arial, sans-serif;
-        transition: background-color 0.3s, color 0.3s;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 100vh;
-        margin: 0;
-    }
-    
-    .container {
-        max-width: 400px;
-        width: 100%;
-        padding: 20px;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        border-radius: 8px;
-    }
-    
-    form {
-        display: flex;
-        flex-direction: column;
-    }
-    
-    label {
-        margin-bottom: 5px;
-    }
-    
-    input[type="text"],
-    input[type="email"],
-    textarea {
-        width: 100%;
-        padding: 8px;
-        margin-bottom: 10px;
-        border: 1px solid #ccc;
-        border-radius: 4px;
-    }
-    
-    textarea {
-        height: 100px;
-    }
-    
-    .button-container {
-        display: flex;
-        justify-content: space-between;
-        margin-bottom: 10px;
-    }
-    
-    .action-button {
-        padding: 10px 20px;
-        border: none;
-        border-radius: 4px;
-        cursor: pointer;
-        font-size: 16px;
-    }
-    
-    input[type="submit"],
-    #add-field {
-        background-color: #007bff;
-        color: white;
-    }
-    
-    input[type="submit"]:hover,
-    #add-field:hover {
-        background-color: #0056b3;
-    }
-    
-    .delete-btn {
-        background-color: #f44336;
-        color: white;
-        width: 80px;
-        /* Fixed width for delete button */
-    }
-    
-    .delete-btn:hover {
-        background-color: #d32f2f;
-    }
-    
-    .field-container {
-        display: flex;
-        align-items: center;
-        margin-bottom: 10px;
-    }
-</style>
+        body {
+            font-family: Arial, sans-serif;
+            transition: background-color 0.3s, color 0.3s;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        
+        .container {
+            max-width: 400px;
+            width: 100%;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+        
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        label {
+            margin-bottom: 5px;
+        }
+        
+        input[type="text"],
+        input[type="email"],
+        textarea {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        
+        textarea {
+            height: 100px;
+        }
+        
+        .button-container {
+            display: flex;
+            justify-content: flex-end; /* Adjusted to align the button to the right */
+            margin-bottom: 10px;
+        }
+        
+        .action-button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        
+        input[type="submit"] {
+            background-color: #007bff;
+            color: white;
+        }
+        
+        input[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+        
+        /* Removed styles for add-field and delete-btn */
+        
+        .light-theme {
+            background-color: #ffffff;
+            color: #000000;
+        }
+        
+        .dark-theme {
+            background-color: #333333;
+            color: #ffffff;
+        }
+    </style>
 </head>
+
 <body class="light-theme">
     <div class="container">
         <h1>User Profile</h1>
@@ -100,44 +95,23 @@
             <input type="email" id="email" name="email" value="user@example.com"><br><br>
             <label for="bio">Bio:</label>
             <textarea id="bio" name="bio">This is my bio...</textarea><br><br>
-            <!-- 动态添加的字段将在这里插入 -->
+            
             <div class="button-container">
                 <input type="submit" class="action-button" value="Save Changes">
-                <button id="add-field" class="action-button">Add Field</button>
             </div>
         </form>
     </div>
     <script>
+        // 页面加载时，从localStorage获取主题并应用
+        document.addEventListener('DOMContentLoaded', function() {
+            var savedTheme = localStorage.getItem('theme') || 'light';
+            document.body.className = savedTheme + '-theme'; // 应用主题
+        });
+
         document.getElementById('profileForm').addEventListener('submit', function(event) {
             event.preventDefault();
             saveFieldsToLocalStorage();
             alert('Profile updated successfully!');
-        });
-
-        document.getElementById('add-field').addEventListener('click', function() {
-            var form = document.getElementById('profileForm');
-            var fieldContainer = document.createElement('div');
-            fieldContainer.className = 'field-container';
-
-            var newInput = document.createElement('input');
-            newInput.type = 'text';
-            newInput.name = 'additionalField[]';
-            newInput.placeholder = 'Enter additional information';
-            newInput.style.width = 'calc(100% - 50px)';
-            newInput.style.padding = '8px';
-            newInput.style.marginBottom = '10px';
-
-            var deleteBtn = document.createElement('button');
-            deleteBtn.className = 'delete-btn';
-            deleteBtn.textContent = 'Delete';
-            deleteBtn.onclick = function() {
-                fieldContainer.remove();
-                saveFieldsToLocalStorage();
-            };
-
-            fieldContainer.appendChild(newInput);
-            fieldContainer.appendChild(deleteBtn);
-            form.appendChild(fieldContainer);
         });
 
         function saveFieldsToLocalStorage() {
@@ -162,4 +136,5 @@
         });
     </script>
 </body>
+
 </html>
