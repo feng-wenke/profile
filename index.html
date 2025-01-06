@@ -101,6 +101,20 @@
         border-image: linear-gradient(45deg, blue, purple) 1;
     }
 }
+        /* 应用流光动画到所有的边框 */
+input[type="text"],
+input[type="email"],
+textarea,
+.container {
+    border: 2px solid transparent; /* 设置边框为透明，以便应用 border-image */
+    border-radius: 4px; /* 保持与原有样式一致 */
+    animation: glowing-border 3s linear infinite; /* 应用动画 */
+}
+
+/* 确保动画不会影响到按钮的样式 */
+input[type="submit"] {
+    border: none;
+}
     </style>
 </head>
 
