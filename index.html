@@ -22,6 +22,9 @@
             padding: 20px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             border-radius: 8px;
+            border: 2px solid transparent; /* 设置边框为透明，以便应用 border-image */
+            border-radius: 8px; /* 保持与原有样式一致 */
+            animation: glowing-border 3s linear infinite; /* 应用动画 */
         }
         
         form {
@@ -81,6 +84,23 @@
             background-color: #333333;
             color: #ffffff;
         }
+        @keyframes glowing-border {
+    0% {
+        border-image: linear-gradient(45deg, red, orange) 1;
+    }
+    25% {
+        border-image: linear-gradient(45deg, orange, yellow) 1;
+    }
+    50% {
+        border-image: linear-gradient(45deg, yellow, green) 1;
+    }
+    75% {
+        border-image: linear-gradient(45deg, green, blue) 1;
+    }
+    100% {
+        border-image: linear-gradient(45deg, blue, purple) 1;
+    }
+}
     </style>
 </head>
 
