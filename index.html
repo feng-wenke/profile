@@ -8,12 +8,13 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            transition: background-color 0.3s, color 0.3s;
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
             margin: 0;
+            background-color: #f0f0f0; /* 设置一个默认的背景颜色 */
+            color: #333; /* 设置默认的文字颜色 */
         }
         
         .container {
@@ -75,50 +76,42 @@
         
         /* Removed styles for add-field and delete-btn */
         
-        .light-theme {
-            background-color: #ffffff;
-            color: #000000;
+        @keyframes glowing-border {
+            0% {
+                border-image: linear-gradient(45deg, red, orange) 1;
+            }
+            25% {
+                border-image: linear-gradient(45deg, orange, yellow) 1;
+            }
+            50% {
+                border-image: linear-gradient(45deg, yellow, green) 1;
+            }
+            75% {
+                border-image: linear-gradient(45deg, green, blue) 1;
+            }
+            100% {
+                border-image: linear-gradient(45deg, blue, purple) 1;
+            }
         }
         
-        .dark-theme {
-            background-color: #333333;
-            color: #ffffff;
-        }
-        @keyframes glowing-border {
-    0% {
-        border-image: linear-gradient(45deg, red, orange) 1;
-    }
-    25% {
-        border-image: linear-gradient(45deg, orange, yellow) 1;
-    }
-    50% {
-        border-image: linear-gradient(45deg, yellow, green) 1;
-    }
-    75% {
-        border-image: linear-gradient(45deg, green, blue) 1;
-    }
-    100% {
-        border-image: linear-gradient(45deg, blue, purple) 1;
-    }
-}
         /* 应用流光动画到所有的边框 */
-input[type="text"],
-input[type="email"],
-textarea,
-.container {
-    border: 2px solid transparent; /* 设置边框为透明，以便应用 border-image */
-    border-radius: 4px; /* 保持与原有样式一致 */
-    animation: glowing-border 3s linear infinite; /* 应用动画 */
-}
+        input[type="text"],
+        input[type="email"],
+        textarea,
+        .container {
+            border: 2px solid transparent; /* 设置边框为透明，以便应用 border-image */
+            border-radius: 4px; /* 保持与原有样式一致 */
+            animation: glowing-border 3s linear infinite; /* 应用动画 */
+        }
 
-/* 确保动画不会影响到按钮的样式 */
-input[type="submit"] {
-    border: none;
-}
+        /* 确保动画不会影响到按钮的样式 */
+        input[type="submit"] {
+            border: none;
+        }
     </style>
 </head>
 
-<body class="light-theme">
+<body>
     <div class="container">
         <h1>User Profile</h1>
         <form id="profileForm">
@@ -136,12 +129,6 @@ input[type="submit"] {
         </form>
     </div>
     <script>
-        // 页面加载时，从localStorage获取主题并应用
-        document.addEventListener('DOMContentLoaded', function() {
-            var savedTheme = localStorage.getItem('theme') || 'light';
-            document.body.className = savedTheme + '-theme'; // 应用主题
-        });
-
         document.getElementById('profileForm').addEventListener('submit', function(event) {
             event.preventDefault();
             saveFieldsToLocalStorage();
