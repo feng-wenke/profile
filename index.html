@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Profile</title>
+    <title>Personal Profile</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -13,8 +13,8 @@
             align-items: center;
             height: 100vh;
             margin: 0;
-            background-color: #f0f0f0; /* 设置一个默认的背景颜色 */
-            color: #333; /* 设置默认的文字颜色 */
+            background-color: #f0f0f0; /* Set a default background color */
+            color: #333; /* Set default text color */
         }
         
         .container {
@@ -23,9 +23,9 @@
             padding: 20px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             border-radius: 8px;
-            border: 2px solid transparent; /* 设置边框为透明，以便应用 border-image */
-            border-radius: 8px; /* 保持与原有样式一致 */
-            animation: glowing-border 3s linear infinite; /* 应用动画 */
+            border: 2px solid transparent; /* Set border to transparent to apply border-image */
+            border-radius: 8px; /* Keep consistent with existing styles */
+            animation: glowing-border 3s linear infinite; /* Apply animation */
         }
         
         form {
@@ -94,29 +94,39 @@
             }
         }
         
-        /* 应用流光动画到所有的边框 */
+        /* Apply shimmering animation to all borders */
         input[type="text"],
         input[type="email"],
         textarea,
         .container {
-            border: 2px solid transparent; /* 设置边框为透明，以便应用 border-image */
-            border-radius: 4px; /* 保持与原有样式一致 */
-            animation: glowing-border 3s linear infinite; /* 应用动画 */
+            border: 2px solid transparent; /* Set border to transparent to apply border-image */
+            border-radius: 4px; /* Keep consistent with existing styles */
+            animation: glowing-border 3s linear infinite; /* Apply animation */
         }
 
-        /* 确保动画不会影响到按钮的样式 */
+        /* Ensure the animation does not affect the button's style */
         input[type="submit"] {
             border: none;
+        }
+
+        /* Avatar style */
+        .avatar {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            margin: 0 auto 20px;
+            display: block;
         }
     </style>
 </head>
 
 <body>
     <div class="container">
-        <h1>User Profile</h1>
+        <h1>Personal Profile</h1>
+        <img src="5.jpg" alt="Avatar" class="avatar">
         <form id="profileForm">
             <label for="username">Username:</label>
-            <input type="text" id="username" name="username" value="冯文科" readonly><br><br>
+            <input type="text" id="username" name="username" value="Feng Wenke" readonly><br><br>
 
             <label for="email">Email:</label>
             <input type="email" id="email" name="email" value="user@example.com"><br><br>
@@ -143,7 +153,7 @@
             localStorage.setItem('profileFields', JSON.stringify(fieldsData));
         }
 
-        // 当页面加载时，尝试恢复字段
+        // When the page loads, try to restore the fields
         document.addEventListener('DOMContentLoaded', function() {
             var savedFields = JSON.parse(localStorage.getItem('profileFields'));
             if (savedFields) {
