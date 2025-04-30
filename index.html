@@ -139,6 +139,22 @@
         </form>
     </div>
     <script>
+        // 设置入口页面的URL
+    var entryPageUrl = "https://homepage.328249.xyz/";
+
+    // 检查用户是否从入口页面进入
+    function checkEntryPoint() {
+      var referrer = document.referrer;
+      // 检查referrer是否为入口页面URL
+      if (referrer !== entryPageUrl) {
+        // 如果不是，重定向到入口页面
+        window.location.href = "https://login.328249.xyz/";
+      }
+    }
+
+    // 在页面加载时检查
+    window.onload = checkEntryPoint;
+        
         document.getElementById('profileForm').addEventListener('submit', function(event) {
             event.preventDefault();
             saveFieldsToLocalStorage();
